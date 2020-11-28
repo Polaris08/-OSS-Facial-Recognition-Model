@@ -16,12 +16,12 @@ import os, sys
 video_capture = cv2.VideoCapture(0)
 
 # Load a sample picture and learn how to recognize it.
-#obama_image = face_recognition.load_image_file("me.jpg")
-#obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
+# obama_image = face_recognition.load_image_file("me.jpg")
+# obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
 
 # Load a second sample picture and learn how to recognize it.
-#biden_image = face_recognition.load_image_file("biden.jpg")
-#biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+# biden_image = face_recognition.load_image_file("biden.jpg")
+# biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
 
 path_dir = "users"
 file_list = os.listdir(path_dir)
@@ -35,13 +35,13 @@ known_face_names = []
 '''
 str = face_recognition.face_encodings(face_recognition.load_image_file("users/me/me.jpg"))[0]
 print(str)
-
 known_face_encodings.append(str)
 known_face_encodings.append(face_recognition.face_encodings(face_recognition.load_image_file("users/biden/biden.jpg"))[0])
 '''
-for i in file_list :
+for i in file_list:
     name_list.append(i)
-    known_face_encodings.append(face_recognition.face_encodings(face_recognition.load_image_file("users/"+i+"/"+i+".jpg"))[0])
+    known_face_encodings.append(
+        face_recognition.face_encodings(face_recognition.load_image_file("users/" + i + "/" + i + ".jpg"))[0])
     known_face_names.append(i)
 
 print(name_list)
@@ -56,21 +56,21 @@ if name in name_list:
 
 print(name_list)
 
-#known_face_encodings = [
+# known_face_encodings = [
 #    face_recognition.face_encodings(face_recognition.load_image_file("me.jpg"))[0],
-#face_recognition.face_encodings(face_recognition.load_image_file("biden.jpg"))[0]
+# face_recognition.face_encodings(face_recognition.load_image_file("biden.jpg"))[0]
 #    biden_face_encoding
-#]
-#known_face_names = [
+# ]
+# known_face_names = [
 #    "me",
 #    "Joe Biden"
-#]
+# ]
 
-#known_face_names.append("me")
-#known_face_names.append("Joe Biden")
+# known_face_names.append("me")
+# known_face_names.append("Joe Biden")
 
-#known_face_encodings.remove(face_recognition.face_encodings(face_recognition.load_image_file("me.jpg"))[0])
-#known_face_names.remove("me")
+# known_face_encodings.remove(face_recognition.face_encodings(face_recognition.load_image_file("me.jpg"))[0])
+# known_face_names.remove("me")
 
 # Initialize some variables
 face_locations = []
@@ -139,10 +139,44 @@ while True:
                 d1 = "nautilus users/" + user + "/task"
                 os.system(a1 + b1 + c1 + d1)
 
+                user = name
+                dir = "users/" + user + "/default/"
+                checkfile = open(dir + "checklist.txt", "r")
+                if os.path.isfile(dir + "user_url.txt"):
+                    user_url = open(dir + "user_url.txt", "r")
+                check = checkfile.readline()
+                a = check[0]  # checklib
+                b = check[1]  # checkthu
+                c = check[2]  # checkfir
+                if a == "1":
+                    a1 = "libreoffice&"
+                else:
+                    a1 = ""
+                if b == "1":
+                    b1 = "thunderbird&"
+                else:
+                    b1 = ""
+                if c == "1":
+                    c1 = "firefox"
+                    if os.path.isfile(dir + "user_url.txt"):
+                        line = user_url.readline()
+                        while line:
+                            c1 += " " + line
+                            line = user_url.readline()
+                    c1 += "&"
+                else:
+                    c1 = ""
+
+                d1 = "nautilus users/" + user + "/task"
+                print("check : " + check)
+                print(a1 + b1 + c1 + d1)
+                os.system(a1 + b1 + c1 + d1)
+
+                exit()
+
             face_names.append(name)
 
     process_this_frame = not process_this_frame
-
 
     # Display the results
     for (top, right, bottom, left), name in zip(face_locations, face_names):
