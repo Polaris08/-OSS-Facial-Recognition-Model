@@ -17,6 +17,7 @@ def select_tasks():
         print("1. 기본 프로그램 설정")
         print("2. 사용자설정 바로가기 만들기/삭제")
         print("3. pin번호 변경")
+        print("4. 종")
         menu = int(input(">> "))
         if menu == 1:
             print("-------------- 기본 프로그램 설정 ------------------")
@@ -88,4 +89,10 @@ def select_tasks():
             pin = input("input new pin >> ")
             set_account.change_pin("users/" + user, pin)
             print("new pin : ", pin)
+        elif menu == 4:
+            break
+        else:
+            print("wrong menu\n")
 
+
+#select_tasks("man")
