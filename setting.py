@@ -16,7 +16,7 @@ def select_tasks(user):
         print("1. 기본 프로그램 설정")
         print("2. 사용자설정 바로가기 만들기/삭제")
         print("3. pin번호 변경")
-        print("4. 종")
+        print("4. 종료")
         menu = int(input(">> "))
         if menu == 1:
             print("-------------- 기본 프로그램 설정 ------------------")
