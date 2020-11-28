@@ -16,7 +16,8 @@ while True:
     elif choice == 2:
         mod_face()
     elif choice == 3:
-        select_tasks()
+        user = input("유저 이름을 입력해주세요 : ")
+        select_tasks(user)
     elif choice == 4:
         del_face()
     elif choice == 5:
