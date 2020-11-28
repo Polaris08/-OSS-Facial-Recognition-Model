@@ -7,14 +7,14 @@ from tkinter import filedialog
 # (pin 바꾸고자 하는 user이름, 새로운 pin)
 # users/user/pin.txt에 등록된 pin번호를 바꿔줌
 def change_pin(user, pin):
-    f = open('./users/' + user + "/pin.txt", "w")
+    f = open(user + "/pin.txt", "w")
     f.write(pin)
     f.close()
 
 # (유저 이름)
 # user의 task를 리스트로 한줄한줄 읽어온 다음 그 리스트를 리턴
 def read_tasks(user):
-    f = open('./users/' + user + "/tasks.txt", "r")
+    f = open(user + "/tasks.txt", "r")
     l = f.readlines();
     return l
 
@@ -22,7 +22,7 @@ def read_tasks(user):
 # tasks.txt파일의 처음부터 tasks 리스트의 목록을 덮어씌움.
 # 설정한 tasks의 리스트를 리턴
 def set_tasks(user, tasks):
-    f = open('./users/' + user + "/tasks.txt", "w")
+    f = open(user + "/tasks.txt", "w")
     for t in tasks:
         f.write(t + "\n")
     f.close()
@@ -32,16 +32,16 @@ def set_tasks(user, tasks):
 # tasks.txt파일에 중복 없이 새 tasks를 추가
 # 새로 설정한 tasks의 리스트를 리턴
 def add_tasks(user, tasks):
-    if os.path.exists('./users/' + user + "/tasks.txt"):
+    if os.path.exists(user + "/tasks.txt"):
         list = []
-        with open('./users/' + user + "/tasks.txt") as f:
+        with open(user + "/tasks.txt") as f:
             for t in tasks:
                 if t not in f.read():
                     list.append(t)
                     print(t)
                 f.seek(0)
         f.close()
-        f = open('./users/' + user + "/tasks.txt", "a")
+        f = open(user + "/tasks.txt", "a")
         for l in list:
             f.write(l + "\n")
         f.close()
@@ -92,29 +92,23 @@ def newline_delete(list):
 # task폴더에 심볼릭 링크를 생
 def tasks_to_symbolic(user, list):
     newlist = newline_delete(list)
-    if not os.path.exists("./users/" + user + "/task/"):
-        os.mkdir("./users/" + user + "/task/")
+    if not os.path.exists(user + "/task/"):
+        os.mkdir(user + "/task/")
     for i in newlist:
         head, tail = os.path.split(i)
-        os.symlink(i, "./users/" + user + "/task/" + tail)
+        os.symlink(i, user + "/task/" + tail)
 
 # (유저)
 # 작업들을 실행할 수 있는 옵션 메뉴 띄워줌
-def select_option():
-    user = input("Please input user name: ")
+def select_option(user):
     while True:
         print("\033[34m" + "================= main menu ==================")
         print("select menu")
-        print("1. change pin\n2. add tasks\n3. delete tasks\n4. exit")
+        print("1. add tasks\n2. delete tasks\n3. exit")
         print("===================================" + "\033[0m")
         menu = int(input(">> "))
 
         if menu == 1:
-            print("\n---------------- change pin ----------------")
-            pin = input("input new pin >> ")
-            change_pin(user, pin)
-            print("new pin : ", pin)
-        elif menu == 2:
             task_list = []
             print("\033[31m" + "\n---------------- add tasks ----------------")
             print("you can add multiple tasks\nselect menu")
@@ -138,7 +132,7 @@ def select_option():
                 else:
                     print("wrong menu\n")
 
-        elif menu == 3:
+        elif menu == 2:
             if not os.path.exists(user + "/tasks.txt"):
                 print("no tasks to delete!")
                 continue
@@ -165,11 +159,11 @@ def select_option():
                 else:
                     print("wrong menu\n")
 
-        elif menu == 4:
+        elif menu == 3:
             tasks_to_symbolic(user, read_tasks(user))
             break
 
-        else :
+        else:
             print("wrong menu\n")
 
 
